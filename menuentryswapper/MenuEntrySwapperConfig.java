@@ -93,6 +93,16 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "swapContract",
+		name = "Contract",
+		description = "Swap Talk-to with Contract on Guildmaster Jane"
+	)
+	default boolean swapContract()
+	{
+		return true; 
+	}
+
+	@ConfigItem(
 		keyName = "swapChase",
 		name = "Chase",
 		description = "Allows to left click your cat to chase"
@@ -183,9 +193,9 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "swapBlackjack",
-		name = "Blackjacking",
-		description = "Swap blackjacking parameters."
+			keyName = "swapBlackjack",
+			name = "Blackjacking",
+			description = "Requires \"The Fued\" quest completed."
 	)
 
 	default boolean swapBlackjack() {return false; }

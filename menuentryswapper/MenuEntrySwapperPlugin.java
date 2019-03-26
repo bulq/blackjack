@@ -130,7 +130,6 @@ public class MenuEntrySwapperPlugin extends Plugin
 	@Override
 	public void startUp()
 	{
-		timeSinceKnockout = System.currentTimeMillis();
 		if (config.shiftClickCustomization())
 		{
 			enableCustomization();
@@ -363,11 +362,14 @@ public class MenuEntrySwapperPlugin extends Plugin
 			return;
 		}
 
-		if (option.equals("attack") && config.swapBlackjack() && target.contains("bandit")) {
-			if (System.currentTimeMillis() > (timeSinceKnockout + 2500)) {
-				swap("knock-out", option, target, true);
-			} else {
-				swap("pickpocket", option, target, true);
+		if (config.swapBlackjack() && (target.contains("bandit") | target.contains("menaphite thug"))) {
+			Quest quest = Quest.THE_FEUD;
+			if (quest.getState(client) == QuestState.FINISHED) {
+				if (System.currentTimeMillis() > (timeSinceKnockout + 2500)) {
+					swap("knock-out", option, target, true);
+				} else {
+					swap("pickpocket", option, target, true);
+				}
 			}
 		}
 
@@ -386,6 +388,11 @@ public class MenuEntrySwapperPlugin extends Plugin
 			if (config.swapBank())
 			{
 				swap("bank", option, target, true);
+			}
+
+			if (config.swapContract())
+			{
+				swap("contract", option, target, true);
 			}
 
 			if (config.swapExchange())
@@ -588,10 +595,8 @@ public class MenuEntrySwapperPlugin extends Plugin
 		}
 	}
 
-	/////////GIOVANNI
 	@Subscribe
 	public void onChatMessage(ChatMessage event) {
-		System.out.println("MESSAGE: " + event.getMessage() + " TYPE: " + event.getType());
 		if (event.getMessage().contains("ou smack the bandit over the head and render them unconsci") && event.getType() == ChatMessageType.FILTERED) {
 			timeSinceKnockout = System.currentTimeMillis();
 		}
